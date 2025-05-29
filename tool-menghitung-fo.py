@@ -5,17 +5,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Contoh data suhu
-waktu = np.arange(0, 61, 5)  # menit
-suhu = [30, 35, 45, 60, 75, 85, 95, 110, 115, 121, 122, 121, 118]
-
-# Plot grafik suhu vs waktu
-fig, ax = plt.subplots()
-ax.plot(waktu[:len(suhu)], suhu, marker='o', linestyle='-', color='blue')
-ax.set_title('Grafik Suhu vs Waktu')
-ax.set_xlabel('Waktu (menit)')
-ax.set_ylabel('Suhu (°C)')
-
 # Simpan grafik ke BytesIO
 img_buffer = BytesIO()
 fig.savefig(img_buffer, format='png')
@@ -40,12 +29,6 @@ st.title("📄 Validasi Thermal Retort")
 st.write("Grafik suhu terhadap waktu berhasil dibuat dan dimasukkan ke dalam laporan PDF.")
 st.pyplot(fig)
 
-st.download_button(
-    label="⬇️ Download Laporan PDF",
-    data=buffer,
-    file_name="laporan_validasi.pdf",
-    mime="application/pdf"
-)
 st.set_page_config(page_title="Tools menghitung F0", layout="wide")
 st.title("Validasi Thermal Proses Sterilisasi - PT Rumah Retort Bersama")
 
@@ -182,6 +165,13 @@ if temps:
     ax2.legend(loc="upper right")
     st.pyplot(fig)
 
+    st.download_button(
+    label="⬇️ Download Laporan PDF",
+    data=buffer,
+    file_name="laporan_validasi.pdf",
+    mime="application/pdf"
+)
+    
     if st.button("📄 Ekspor ke PDF"):
         pdf = PDF()
         pdf.add_metadata(nama_produk, tanggal_proses, nama_operator, nama_alat, f0[-1], valid)
