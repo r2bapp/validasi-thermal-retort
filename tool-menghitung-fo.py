@@ -143,14 +143,15 @@ pdf.add_page()
 pdf.set_font("Arial", size=12)
 pdf.cell(200, 10, txt="Laporan Penghitungan F0", ln=True, align="C")
 pdf.ln(10)
-pdf.multi_cell(0, 10, f"""
-Produk: {produk}
-Tanggal Proses: {tanggal}
-Operator: {operator}
-Alat Retort: {alat}
-Nilai F0: {f0_total:.2f}
-Status Validasi: {status}
-""")
+pdf.multi_cell(0, 10, isi_laporan)
+isi_laporan = (
+    f"Produk: {produk}\n"
+    f"Tanggal Proses: {datetime.now().strftime('%d-%m-%Y')}\n"
+    f"Operator: {operator}\n"
+    f"Alat Retort: {alat}\n"
+    f"Nilai F0: {f0_total:.2f}\n"
+    f"Status Validasi: {status}"
+)
 pdf.ln(5)
 pdf.image("grafik.png", x=10, y=30, w=180)
 
