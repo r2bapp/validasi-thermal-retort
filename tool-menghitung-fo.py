@@ -148,8 +148,8 @@ pdf.image("grafik.png", x=10, y=30, w=180)
 
 
 # Output PDF ke memori
-if st.button():
-        pdf = PDF("Hitung Ulang" )
+if st.button("🔁 Hitung Ulang"):
+        pdf = PDF()
         pdf.add_data(nama_produk, tanggal_proses, nama_operator, nama_alat, f0[-1], valid)
 pdf_bytes = pdf.output(dest='S')
 buffer = BytesIO(pdf_bytes)
