@@ -143,16 +143,6 @@ pdf.add_page()
 pdf.set_font("Arial", size=12)
 pdf.cell(200, 10, txt="Laporan Penghitungan F0", ln=True, align="C")
 pdf.ln(10)
-isi_laporan = (
-    f"Produk: {nama_produk}\n"
-    f"Tanggal Proses: {datetime.now().strftime('%d-%m-%Y')}\n"
-    f"Operator: {nama_operator}\n"
-    f"Alat Retort: {alat}\n"
-    f"Nilai F0: {f0_total:.2f}\n"
-    f"Status Validasi: {status}"
-)
-pdf.multi_cell(0, 10, isi_laporan)
-pdf.ln(5)
 pdf.image("grafik.png", x=10, y=30, w=180)
 
 # Simpan ke buffer dan tampilkan tombol unduh
