@@ -145,13 +145,15 @@ pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
 pdf.ln(10)
 pdf.image("grafik.png", x=10, y=30, w=180)
 
+# Buat isi PDF sebagai byte stream
+pdf_bytes = pdf.output(dest='S')
+buffer = BytesIO(pdf_bytes)
+
 # Tombol download di Streamlit
-st.title("📄 Unduh Data PDF")
+st.title("📄 Unduh Data PDF"):
 st.download_button(
     label="Download Laporan PDF",
     data=buffer,
-    pdf_bytes = pdf.output(dest='S')
-    buffer = BytesIO(pdf_bytes)
     file_name="laporan_validasi.pdf",
     mime="application/pdf"
 )
