@@ -31,7 +31,7 @@ def calculate_f0(temps, T_ref=121.1, z=10):
     return np.cumsum(f0_values)
     
        # Cari baris tempat data suhu dimulai
-        start_row = None
+
         for i, row in df_raw.iterrows():
             if row.astype(str).str.contains("DATA PANTAUAN", case=False, na=False).any():
                 start_row = i + 1
