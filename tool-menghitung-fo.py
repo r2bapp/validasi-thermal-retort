@@ -38,11 +38,7 @@ def detect_data_start():
             start_row = idx
             break
     return start_row
-        for i, row in df_raw.iterrows():
-            if row.astype(str).str.contains("DATA PANTAUAN", case=False, na=False).any():
-                start_row = i + 1
-                break
-
+        
         if start_row is None:
             raise ValueError("Baris 'DATA PANTAUAN' tidak ditemukan.")
 
