@@ -126,6 +126,9 @@ ax2.legend(loc="center right")
 # Tampilkan grafik
 st.pyplot(fig)
 
+# Simpan grafik ke file PNG
+fig.savefig("grafik.png")
+
 # Simpan grafik ke BytesIO
 img_buffer = BytesIO()
 fig.savefig(img_buffer, format='png')
@@ -140,7 +143,7 @@ pdf.add_page()
 pdf.set_font("Arial", size=12)
 pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
 pdf.ln(10)
-pdf.image("image buffer.png", x=10, y=30, w=180)
+pdf.image("grafik.png", x=10, y=30, w=180)
 
 
 
