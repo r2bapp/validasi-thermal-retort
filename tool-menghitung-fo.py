@@ -96,7 +96,7 @@ class PDF(FPDF):
         self.chapter_title("Metadata Proses")
         self.chapter_body(f"Produk: {produk}\nTanggal Proses: {tanggal}\nOperator: {operator}\nAlat Retort: {alat}")
         self.chapter_title("Hasil Validasi")
-        self.chapter_body(f"Nilai F₀ Total: {f0_total:.2f}\nValidasi Suhu ≥121.1°C selama 3 menit: {'✅ Lolos' if passed else '❌ Tidak Lolos'}")
+        self.chapter_body(f"Nilai F₀ Total: {f0_total:.2f}\nValidasi Suhu ≥121.1°C selama 3 menit: {'Lolos' if passed else 'Tidak Lolos'}"){status_text}"
 
 # Pilihan metode input
 input_method = st.radio("🔘 Pilih Metode Input", ["Manual", "Upload Excel"])
@@ -160,7 +160,7 @@ nilai_f0 = 3.25
 valid = "Valid"
 
 # Lalu dipakai
-pdf.add_metadata(nama_produk, tanggal_proses, nama_operator, nama_alat, nilai_f0, valid)
+pdf.add_metadata( )
 pdf_bytes = pdf.output(dest='S').encode('latin1')
 st.download_button("💾 Unduh PDF", data=pdf_bytes, file_name="laporan_validasi.pdf", mime="application/pdf")
 
