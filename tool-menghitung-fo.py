@@ -126,36 +126,23 @@ if temps:
     else:
         st.warning("⚠️ Suhu ≥121.1°C belum tercapai selama 3 menit")
 
-    fig, ax = plt.subplots()
-    ax.plot(range(1, len(temps)+1), temps, label="Suhu (°C)", marker='o')
-    ax.axhline(90, color='red', linestyle='--', label="Ambang F₀ (90°C)")
-    ax.axhline(121.1, color='green', linestyle='--', label="Target BPOM (121.1°C)")
-    ax.set_xlabel("Menit")
-    ax.set_ylabel("Suhu (°C)")
+   # Buat grafik
+fig, ax = plt.subplots()
+ax.plot(range(1, len(temps)+1), temps, label="Suhu (°C)", marker='o')
+ax.axhline(90, color='red', linestyle='--', label="Ambang F₀ (90°C)")
+ax.axhline(121.1, color='green', linestyle='--', label="Target BPOM (121.1°C)")
+ax.set_xlabel("Menit")
+ax.set_ylabel("Suhu (°C)")
 
-    ax2 = ax.twinx()
-    ax2.plot(range(1, len(f0)+1), f0, color='orange', label="F₀ Akumulatif", linestyle='--')
-    ax2.set_ylabel("F₀")
+ax2 = ax.twinx()
+ax2.plot(range(1, len(f0)+1), f0, color='orange', label="F₀ Akumulatif", linestyle='--')
+ax2.set_ylabel("F₀")
 
-    ax.legend(loc="upper left")
-    ax2.legend(loc="upper right")
-    st.pyplot(fig)
+ax.legend(loc="upper left")
+ax2.legend(loc="upper right")
 
-    st.download_button(
-    label="⬇️ Download Laporan PDF",
-    data=buffer,
-    file_name="laporan_validasi.pdf",
-    mime="application/pdf"
-)
-    
-    if st.button("📄 Ekspor ke PDF"):
-        pdf = PDF()
-        pdf.add_metadata(nama_produk, tanggal_proses, nama_operator, nama_alat, f0[-1], valid)
-        pdf_bytes = pdf.output(dest='S').encode('latin1')
-        st.download_button("💾 Unduh PDF", data=pdf_bytes, file_name="laporan_validasi.pdf", mime="application/pdf")
-
-else:
-    st.warning("⚠️ Masukkan data suhu terlebih dahulu.")
+# Tampilkan grafik
+st.pyplot(fig)
 
 # Simpan grafik ke BytesIO
 img_buffer = BytesIO()
@@ -168,16 +155,16 @@ pdf.add_page()
 pdf.set_font("Arial", size=12)
 pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
 pdf.ln(10)
-
-# Tambahkan grafik ke PDF
 pdf.image(img_buffer, x=10, y=30, w=180)
 
 # Output PDF ke memori
-pdf_bytes = pdf.output(dest='S')  # aman tanpa .encode jika sudah bytes  
+pdf_bytes = pdf.output(dest='S')
 buffer = BytesIO(pdf_bytes)
 
-# Tampilkan di Streamlit
-st.title("📄 Validasi Thermal Retort")
-st.write("Grafik suhu terhadap waktu berhasil dibuat dan dimasukkan ke dalam laporan PDF.")
-st.pyplot(fig)
-
+# Tombol unduh PDF
+st.download_button(
+    label="⬇️ Download Laporan PDF",
+    data=buffer,
+    file_name="laporan_validasi.pdf",
+    mime="application/pdf"
+)
