@@ -151,8 +151,15 @@ img_buffer.seek(0)
 
 if st.button("📄 Ekspor ke PDF"):
     pdf = PDF()
-    pdf.add_metadata(nama_produk, tanggal_proses, nama_operator, nama_alat, nilai_f0, valid)
-# sekarang ini valid
+   pdf.add_metadata(
+    produk="",
+    tanggal="",
+    operator="Budi Santoso",
+    alat="Overpressure Retort",
+    f0=,
+    status=""
+)
+
     pdf_bytes = pdf.output(dest='S').encode('latin1')
     st.download_button("💾 Unduh PDF", data=pdf_bytes, file_name="laporan_validasi.pdf", mime="application/pdf")
 
