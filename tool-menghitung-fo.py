@@ -5,30 +5,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Simpan grafik ke BytesIO
-img_buffer = BytesIO()
-fig.savefig(img_buffer, format='png')
-img_buffer.seek(0)
-
-# Buat PDF
-pdf = FPDF()
-pdf.add_page()
-pdf.set_font("Arial", size=12)
-pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
-pdf.ln(10)
-
-# Tambahkan grafik ke PDF
-pdf.image(img_buffer, x=10, y=30, w=180)
-
-# Output PDF ke memori
-pdf_bytes = pdf.output(dest='S')  # aman tanpa .encode jika sudah bytes  
-buffer = BytesIO(pdf_bytes)
-
-# Tampilkan di Streamlit
-st.title("📄 Validasi Thermal Retort")
-st.write("Grafik suhu terhadap waktu berhasil dibuat dan dimasukkan ke dalam laporan PDF.")
-st.pyplot(fig)
-
 st.set_page_config(page_title="Tools menghitung F0", layout="wide")
 st.title("Validasi Thermal Proses Sterilisasi - PT Rumah Retort Bersama")
 
@@ -180,3 +156,28 @@ if temps:
 
 else:
     st.warning("⚠️ Masukkan data suhu terlebih dahulu.")
+
+# Simpan grafik ke BytesIO
+img_buffer = BytesIO()
+fig.savefig(img_buffer, format='png')
+img_buffer.seek(0)
+
+# Buat PDF
+pdf = FPDF()
+pdf.add_page()
+pdf.set_font("Arial", size=12)
+pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
+pdf.ln(10)
+
+# Tambahkan grafik ke PDF
+pdf.image(img_buffer, x=10, y=30, w=180)
+
+# Output PDF ke memori
+pdf_bytes = pdf.output(dest='S')  # aman tanpa .encode jika sudah bytes  
+buffer = BytesIO(pdf_bytes)
+
+# Tampilkan di Streamlit
+st.title("📄 Validasi Thermal Retort")
+st.write("Grafik suhu terhadap waktu berhasil dibuat dan dimasukkan ke dalam laporan PDF.")
+st.pyplot(fig)
+
