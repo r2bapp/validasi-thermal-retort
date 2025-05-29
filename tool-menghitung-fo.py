@@ -6,7 +6,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-st.set_page_config(page_title="Validasi Thermal Retort", layout="centered")
+st.set_page_config(page_title="Tools menghitung F0", layout="wide")
+st.title("Validasi Thermal Proses Sterilisasi - PT Rumah Retort Bersama")
+
+st.markdown("""
+Aplikasi ini menghitung nilai **F₀ (F-nol)** dari data suhu per menit selama proses sterilisasi.
+Gunakan input manual atau upload file Excel berisi suhu tiap menit.
+""")
+
+# Metadata form
+st.sidebar.header("📝 Form Metadata Proses")
+nama_produk = st.sidebar.text_input("Nama Produk")
+tanggal_proses = st.sidebar.date_input("Tanggal Proses")
+nama_operator = st.sidebar.text_input("Nama Operator")
+nama_alat = st.sidebar.text_input("Nama Alat Retort")
+
+# Fungsi hitung F₀
+def calculate_f0(temps, T_ref=121.1, z=10):
+    f0_values = []
+    for T in temps:
+        if T < 90:
+            f0_values.append(0)
+        else:
+            f0_values.append(10 ** ((T - T_ref) / z))
+    return np.cumsum(f0_values)
 
 # ===== Custom PDF Class =====
 class PDF(FPDF):
