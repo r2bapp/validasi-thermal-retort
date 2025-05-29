@@ -153,12 +153,11 @@ pdf.image(img_buffer, x=10, y=30, w=180)
 # Output PDF ke memori
 pdf_bytes = pdf.output(dest='S')
 buffer = BytesIO(pdf_bytes)
-if st.button("Unduh ke PDF"):
         pdf = PDF()
         pdf.add_metadata(nama_produk, tanggal_proses, nama_operator, nama_alat, f0[-1], valid)
 
 # Tombol download di Streamlit
-st.title("📄 Unduh Metadata PDF")
+st.title("📄 Unduh Data PDF")
 st.download_button(
     label="Download Laporan PDF",
     data=buffer,
