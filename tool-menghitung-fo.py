@@ -46,12 +46,12 @@ if start_row is None:
 
 df_data = df_raw.iloc[start_row:].reset_index(drop=True)
 
-        suhu_col = None
-        for col in df_data.columns:
-            numeric_col = pd.to_numeric(df_data[col], errors='coerce')
-            if (numeric_col > 90).sum() > 2:
-                suhu_col = col
-                break
+suhu_col = None
+for col in df_data.columns:
+    numeric_col = pd.to_numeric(df_data[col], errors='coerce')
+    if (numeric_col > 90).sum() > 2:
+        suhu_col = col
+        break
 
         if suhu_col is None:
             raise ValueError("Kolom suhu tidak ditemukan.")
