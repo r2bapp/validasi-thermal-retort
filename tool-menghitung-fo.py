@@ -85,13 +85,6 @@ if temps:
     else:
         st.warning("⚠️ Suhu ≥121.1°C belum tercapai selama 3 menit")
 
-#==== Data Proses ====
-produk = st.text_input("Nama Produk")
-operator = st.text_input("Nama Operator")
-alat = st.text_input("Nama Alat Retort", value="Retort R2B-01")
-f0_total = st.number_input("Nilai F₀", min_value=0.0, format="%.2f")
-status = st.selectbox("Status Validasi", ["Valid", "Tidak Valid"])
-
 # ===== Custom PDF Class =====
 class PDF(FPDF):
     def chapter_title(self, title):
