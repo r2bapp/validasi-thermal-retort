@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-st.set_page_config(page_title="Unduh Metadata PDF dan Tools menghitung F0", layout="wide")
+st.set_page_config(page_title="Unduh Data PDF dan Tools menghitung F0", layout="wide")
 st.title("Tools Menghitung F0 - Rumah Retort Bersama")
 
 st.markdown("""
@@ -14,8 +14,8 @@ Aplikasi ini menghitung nilai **F₀ (F-nol)** dari data suhu per menit selama p
 Gunakan input manual suhu tiap menit.
 """)
 
-# Metadata form
-st.sidebar.header("📝 Form Metadata Proses")
+# Data form
+st.sidebar.header("📝 Form Data Proses")
 nama_produk = st.sidebar.text_input("Nama Produk")
 tanggal_proses = st.sidebar.date_input("Tanggal Proses")
 nama_operator = st.sidebar.text_input("Nama Operator")
@@ -95,9 +95,9 @@ class PDF(FPDF):
         self.set_font("Arial", size=12)
         self.multi_cell(0, 10, text)
 
-    def add_metadata(self, produk, tanggal, operator, alat, f0_total, passed):
+    def add_data(self, produk, tanggal, operator, alat, f0_total, passed):
         self.add_page()
-        self.chapter_title("Metadata Proses")
+        self.chapter_title("Data Proses")
         self.chapter_body(f"Produk: {produk}\nTanggal Proses: {tanggal}\nOperator: {operator}\nAlat Retort: {alat}")
 
         self.chapter_title("Hasil Validasi")
@@ -126,11 +126,6 @@ ax2.legend(loc="center right")
 # Tampilkan grafik
 st.pyplot(fig)
 
-# Simpan grafik ke BytesIO
-img_buffer = BytesIO()
-fig.savefig(img_buffer, format='png')
-img_buffer.seek(0)
-
 # Buat PDF
 pdf = FPDF()
 pdf.set_title("Laporan Validasi Thermal Retort")
@@ -145,9 +140,14 @@ pdf.image(img_buffer, x=10, y=30, w=180)
 # Output PDF ke memori
 if st.button("📄 Ekspor ke PDF"):
         pdf = PDF()
-        pdf.add_metadata(nama_produk, tanggal_proses, nama_operator, nama_alat, f0[-1], valid)
+        pdf.add_data(nama_produk, tanggal_proses, nama_operator, nama_alat, f0[-1], valid)
 pdf_bytes = pdf.output(dest='S')
 buffer = BytesIO(pdf_bytes)
+
+# Simpan grafik ke BytesIO
+img_buffer = BytesIO()
+fig.savefig(img_buffer, format='png')
+img_buffer.seek(0)
 
 # Tombol download di Streamlit
 st.title("📄 Unduh Data PDF")
