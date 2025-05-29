@@ -131,25 +131,6 @@ img_buffer = BytesIO()
 fig.savefig(img_buffer, format='png')
 img_buffer.seek(0)
 
-# Lalu dipakai
-pdf = PDF()
-pdf.add_metadata(
-    produk="Nama Produk",
-    tanggal="Tanggal Proses",
-    operator="Nama Operator",
-    alat="Retort R2B-01",
-    f0_total=3.25,
-    passed="True or Passed"
-)
-pdf_bytes = pdf.output(dest='S')
-buffer = BytesIO(pdf_bytes) 
-st.download_button(
-    label="💾 Unduh PDF",
-    data=buffer,
-    file_name="laporan_validasi.pdf",
-    mime="application/pdf"
-)
-
 # Buat PDF
 pdf = FPDF()
 pdf.set_title("Laporan Validasi Thermal Retort")
