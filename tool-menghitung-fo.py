@@ -132,12 +132,12 @@ fig.savefig(img_buffer, format='png')
 img_buffer.seek(0)
 
    # Didefinisikan dulu
-nama_produk = "Sarden Ikan"
-tanggal_proses = "29-05-2025"
-nama_operator = "Budi Santoso"
-nama_alat = "Retort R2B-01"
-nilai_f0 = 3.25
-valid = "Valid"
+nama_produk = ""
+tanggal_proses = ""
+nama_operator = ""
+nama_alat = ""
+nilai_f0 = 
+valid = ""
 
 # Buat PDF
 pdf = FPDF()
