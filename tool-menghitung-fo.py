@@ -30,18 +30,21 @@ def calculate_f0(temps, T_ref=121.1, z=10):
             f0_values.append(10 ** ((T - T_ref) / z))
     return np.cumsum(f0_values)
     
-       # Cari baris tempat data suhu dimulai
+      # Cari baris tempat data suhu dimulai
 def detect_data_start():
-    start_row = None       # indentasi 4 spasi
+    start_row = None
     for idx, row in enumerate(data):
         if "Suhu" in row:
             start_row = idx
             break
     return start_row
-        if start_row is None:
-            raise ValueError("Baris 'DATA PANTAUAN' tidak ditemukan.")
 
-        df_data = df_raw.iloc[start_row:].reset_index(drop=True)
+# Lanjutan logika di luar fungsi
+start_row = detect_data_start()
+if start_row is None:
+    raise ValueError("Baris 'DATA PANTAUAN' tidak ditemukan.")
+
+df_data = df_raw.iloc[start_row:].reset_index(drop=True)
 
         suhu_col = None
         for col in df_data.columns:
