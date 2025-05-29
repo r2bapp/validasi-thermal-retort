@@ -140,12 +140,12 @@ pdf.add_page()
 pdf.set_font("Arial", size=12)
 pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
 pdf.ln(10)
-pdf.image("grafik_temp.png", x=10, y=30, w=180)
+pdf.image("image buffer.png", x=10, y=30, w=180)
 
 
 
 # Output PDF ke memori
-if st.button("📄 Ekspor ke PDF"):
+if st.button():
         pdf = PDF()
         pdf.add_data(nama_produk, tanggal_proses, nama_operator, nama_alat, f0[-1], valid)
 pdf_bytes = pdf.output(dest='S')
