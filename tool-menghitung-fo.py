@@ -89,13 +89,21 @@ class PDF(FPDF):
         self.set_font('Arial', '', 10)
         self.multi_cell(0, 10, text)
 
-    def add_metadata(self, produk, tanggal, operator, alat, f0_total, passed):
-        self.add_page()
-        self.chapter_title("Metadata Proses")
-        self.chapter_body(f"Produk: {produk}\nTanggal Proses: {tanggal}\nOperator: {operator}\nAlat Retort: {alat}")
-        self.chapter_title("Hasil Validasi")
-        self.chapter_body(f"Nilai F₀ Total: status_text = "Lolos" if passed else "Tidak Lolos" text = f"Nilai F0 Total: {f0_total:.2f}\nValidasi Suhu >= 121.1 C selama 3 menit: {status_text}"              
-        self.multi_cell(0, 10, text)
+  def add_metadata(self, produk, tanggal, operator, alat, f0_total, passed):
+    self.add_page()
+    self.chapter_title("Metadata Proses")
+    self.chapter_body(f"Produk: {produk}\nTanggal Proses: {tanggal}\nOperator: {operator}\nAlat Retort: {alat}")
+
+    self.chapter_title("Hasil Validasi")
+
+    # Tentukan status teks berdasarkan boolean 'passed'
+    status_text = "Lolos" if passed else "Tidak Lolos"
+
+    # Buat teks hasil validasi
+    text = f"Nilai F0 Total: {f0_total:.2f}\nValidasi Suhu >= 121.1 C selama 3 menit: {status_text}"
+
+    # Tambahkan ke PDF
+    self.chapter_body(text)
 
 # Pilihan metode input
 input_method = st.radio("🔘 Pilih Metode Input", ["Manual", "Upload Excel"])
