@@ -151,10 +151,11 @@ pdf.ln(10)
 pdf.image(img_buffer, x=10, y=30, w=180)
 
 # Output PDF ke memori
-pdf_bytes = pdf.output(dest='S')
-buffer = BytesIO(pdf_bytes)
+if st.button("📄 Ekspor ke PDF"):
         pdf = PDF()
         pdf.add_metadata(nama_produk, tanggal_proses, nama_operator, nama_alat, f0[-1], valid)
+pdf_bytes = pdf.output(dest='S')
+buffer = BytesIO(pdf_bytes)
 
 # Tombol download di Streamlit
 st.title("📄 Unduh Data PDF")
