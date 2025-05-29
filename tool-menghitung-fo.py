@@ -136,12 +136,12 @@ img_buffer.seek(0)
 
 # Buat PDF
 pdf = FPDF()
-pdf.set_title("Laporan Validasi Thermal Retort")
+pdf.set_title("Laporan Penghitungan F0")
 pdf.set_author("Nama Operator")
 pdf.set_creator("Aplikasi Streamlit")
 pdf.add_page()
 pdf.set_font("Arial", size=12)
-pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
+pdf.cell(200, 10, txt="Laporan Penghitungan F0", ln=True, align="C")
 pdf.ln(10)
 pdf.image("grafik.png", x=10, y=30, w=180)
 
