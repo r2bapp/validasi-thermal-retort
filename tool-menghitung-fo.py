@@ -142,7 +142,13 @@ pdf.add_metadata(
     passed="True or Passed"
 )
 pdf_bytes = pdf.output(dest='S')
-st.download_button("💾 Unduh PDF", data=pdf_bytes, file_name="laporan_validasi.pdf", mime="application/pdf")
+buffer = BytesIO(pdf_bytes) 
+st.download_button(
+    label="💾 Unduh PDF",
+    data=buffer,
+    file_name="laporan_validasi.pdf",
+    mime="application/pdf"
+)
 
 # Buat PDF
 pdf = FPDF()
