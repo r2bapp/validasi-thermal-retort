@@ -108,28 +108,6 @@ class PDF(FPDF):
     def add_graphic(self, img_buffer):
         self.image(img_buffer, x=10, y=self.get_y(), w=180)
 
-# ===== Dummy Data & Perhitungan =====
-temps = [30, 35, 45, 60, 75, 85, 95, 110, 115, 121, 122, 121, 118]
-z = 10
-f0 = np.cumsum([max(0, (t - 121.1)/z) for t in temps])
-
-fig, ax = plt.subplots()
-ax.plot(range(1, len(temps)+1), temps, label="Suhu (°C)", marker='o')
-ax.axhline(90, color='red', linestyle='--', label="Ambang F₀ (90°C)")
-ax.axhline(121.1, color='green', linestyle='--', label="Target BPOM (121.1°C)")
-ax.set_xlabel("Menit")
-ax.set_ylabel("Suhu (°C)")
-
-ax2 = ax.twinx()
-ax2.plot(range(1, len(f0)+1), f0, color='orange', label="F₀ Akumulatif", linestyle='--')
-ax2.set_ylabel("F₀")
-
-ax.legend(loc="upper left")
-ax2.legend(loc="upper right")
-
-st.title("📄 Validasi Thermal Retort")
-st.pyplot(fig)
-
 # Simpan grafik ke buffer
 img_buffer = BytesIO()
 fig.savefig(img_buffer, format='png')
