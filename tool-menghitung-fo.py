@@ -52,16 +52,16 @@ for col in df_data.columns:
     if (numeric_col > 90).sum() > 2:
         suhu_col = col
         break
+try:
+    if suhu_col is None:
+        raise ValueError("Kolom suhu tidak ditemukan.")
 
-        if suhu_col is None:
-            raise ValueError("Kolom suhu tidak ditemukan.")
+    suhu = pd.to_numeric(df_data[suhu_col], errors='coerce').dropna().tolist()
+    return suhu
 
-        suhu = pd.to_numeric(df_data[suhu_col], errors='coerce').dropna().tolist()
-        return suhu
-
-    except Exception as e:
-        st.error(f"Gagal ekstrak suhu dari file: {e}")
-        return []
+except Exception as e:
+    st.error(f"Gagal ekstrak suhu dari file: {e}")
+    return []
 
 # Fungsi cek suhu minimal 121.1°C selama ≥3 menit
 def check_minimum_holding_time(temps, min_temp=121.1, min_duration=3):
