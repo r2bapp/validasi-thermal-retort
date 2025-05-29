@@ -1,5 +1,0 @@
-validasi_thermal_app/
-│
-├── validasi_thermal_retort.py      ← (script utama)
-├── requirements.txt                ← (daftar dependensi)
-└── README.md                       ← (opsional, penjelasan app)
