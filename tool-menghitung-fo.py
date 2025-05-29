@@ -63,6 +63,28 @@ def check_minimum_holding_time(temps, min_temp=121.1, min_duration=3):
             return True
     return False
 
+# Pilihan metode input
+input_method = st.radio("🔘 Pilih Metode Input", ["Manual", "Upload Excel"])
+temps = []
+
+if input_method == "Manual":
+    st.subheader("📋 Input Manual Suhu per Menit")
+    waktu = st.number_input("Jumlah menit", min_value=1, max_value=120, value=10)
+    for i in range(waktu):
+        temp = st.number_input(f"Menit ke-{i+1}: Suhu (°C)", value=25.0, step=0.1)
+        temps.append(temp)
+
+if temps:
+    f0 = calculate_f0(temps)
+    st.info(f"📊 Data suhu valid ditemukan: {len(temps)} menit")
+    st.success(f"✅ Nilai F₀ Total: {f0[-1]:.2f}")
+
+    valid = check_minimum_holding_time(temps)
+    if valid:
+        st.success("✅ Suhu ≥121.1°C tercapai minimal selama 3 menit")
+    else:
+        st.warning("⚠️ Suhu ≥121.1°C belum tercapai selama 3 menit")
+
 # ===== Custom PDF Class =====
 class PDF(FPDF):
     def chapter_title(self, title):
