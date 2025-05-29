@@ -147,7 +147,7 @@ isi_laporan = (
     f"Produk: {nama_produk}\n"
     f"Tanggal Proses: {datetime.now().strftime('%d-%m-%Y')}\n"
     f"Operator: {nama_operator}\n"
-    f"Alat Retort: {nama_alat_retort}\n"
+    f"Alat Retort: {alat}\n"
     f"Nilai F0: {f0_total:.2f}\n"
     f"Status Validasi: {status}"
 )
