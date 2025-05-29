@@ -137,17 +137,17 @@ pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
 pdf.ln(10)
 pdf.image(img_buffer, x=10, y=30, w=180)
 
+# Simpan grafik ke BytesIO
+img_buffer = BytesIO()
+fig.savefig(img_buffer, format='png')
+img_buffer.seek(0)
+
 # Output PDF ke memori
 if st.button("📄 Ekspor ke PDF"):
         pdf = PDF()
         pdf.add_data(nama_produk, tanggal_proses, nama_operator, nama_alat, f0[-1], valid)
 pdf_bytes = pdf.output(dest='S')
 buffer = BytesIO(pdf_bytes)
-
-# Simpan grafik ke BytesIO
-img_buffer = BytesIO()
-fig.savefig(img_buffer, format='png')
-img_buffer.seek(0)
 
 # Tombol download di Streamlit
 st.title("📄 Unduh Data PDF")
