@@ -1,15 +1,21 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 from fpdf import FPDF
+from io import BytesIO
+import streamlit as st
+
 pdf = FPDF()
 pdf.add_page()
-pdf.add_font('DejaVu', '', 'fonts/DejaVuSans.ttf', uni=True)
-pdf.set_font('DejaVu', '', 14)
-pdf.cell(0, 10, "✅ Validasi Suhu ≥121.1°C selama 3 menit", ln=True)
+pdf.set_font("Arial", size=12)
+pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
 
-from io import BytesIO
+pdf_bytes = pdf.output(dest='S').encode('latin-1')
+buffer = BytesIO(pdf_bytes)
+
+st.download_button(
+    label="⬇️ Download Laporan PDF",
+    data=buffer,
+    file_name="laporan_validasi.pdf",
+    mime="application/pdf"
+)
 
 st.set_page_config(page_title="Tools menghitung F0", layout="wide")
 st.title("Validasi Thermal Proses Sterilisasi - PT Rumah Retort Bersama")
