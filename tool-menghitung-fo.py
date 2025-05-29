@@ -108,15 +108,6 @@ class PDF(FPDF):
     def add_graphic(self, img_buffer):
         self.image(img_buffer, x=10, y=self.get_y(), w=180)
 
-pdf.multi_cell(0, 10, f"""
-Produk: {produk}
-Tanggal Proses: {tanggal}
-Operator: {operator}
-Alat Retort: {alat}
-Nilai F0: {f0_total:.2f}
-Status Validasi: {status}
-""")
-
    # Buat grafik
 fig, ax = plt.subplots()
 ax.plot(range(1, len(temps)+1), temps, label="Suhu (°C)", marker='o')
