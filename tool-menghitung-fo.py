@@ -11,7 +11,7 @@ st.title("Validasi Thermal Proses Sterilisasi - PT Rumah Retort Bersama")
 
 st.markdown("""
 Aplikasi ini menghitung nilai **F₀ (F-nol)** dari data suhu per menit selama proses sterilisasi.
-Gunakan input manual atau upload file Excel berisi suhu tiap menit.
+Gunakan input manual suhu tiap menit.
 """)
 
 # Metadata form
@@ -64,7 +64,7 @@ def check_minimum_holding_time(temps, min_temp=121.1, min_duration=3):
     return False
 
 # Pilihan metode input
-input_method = st.radio("🔘 Pilih Metode Input", ["Manual", "Upload Excel"])
+input_method = st.radio("🔘 Pilih Metode Input", ["Manual"])
 temps = []
 
 if input_method == "Manual":
@@ -130,6 +130,16 @@ st.pyplot(fig)
 img_buffer = BytesIO()
 fig.savefig(img_buffer, format='png')
 img_buffer.seek(0)
+
+if st.button("Unduh ke PDF"):
+    pdf = PDF()
+   # Didefinisikan dulu
+nama_produk = "Sarden Ikan"
+tanggal_proses = "29-05-2025"
+nama_operator = "Budi Santoso"
+nama_alat = "Retort R2B-01"
+nilai_f0 = 3.25
+valid = "Valid"
 
 # Buat PDF
 pdf = FPDF()
