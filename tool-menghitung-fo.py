@@ -120,8 +120,8 @@ ax2 = ax.twinx()
 ax2.plot(range(1, len(f0)+1), f0, color='orange', label="F₀ Akumulatif", linestyle='--')
 ax2.set_ylabel("F₀")
 
-ax.legend(loc="down left")
-ax2.legend(loc="sown right")
+ax.legend(loc="center left")
+ax2.legend(loc="center right")
 
 # Tampilkan grafik
 st.pyplot(fig)
