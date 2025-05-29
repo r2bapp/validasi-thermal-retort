@@ -126,6 +126,10 @@ ax2.legend(loc="center right")
 # Tampilkan grafik
 st.pyplot(fig)
 
+# Simpan grafik ke BytesIO
+fig.savefig("grafik_temp.png")
+img_buffer.seek(0)
+
 # Buat PDF
 pdf = FPDF()
 pdf.set_title("Laporan Validasi Thermal Retort")
@@ -135,12 +139,9 @@ pdf.add_page()
 pdf.set_font("Arial", size=12)
 pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
 pdf.ln(10)
-pdf.image(img_buffer, x=10, y=30, w=180, type='PNG', name='grafik.png')
+pdf.image("grafik_temp.png", x=10, y=30, w=180)
 
-# Simpan grafik ke BytesIO
-img_buffer = BytesIO()
-fig.savefig(img_buffer, format='png')
-img_buffer.seek(0)
+
 
 # Output PDF ke memori
 if st.button("📄 Ekspor ke PDF"):
