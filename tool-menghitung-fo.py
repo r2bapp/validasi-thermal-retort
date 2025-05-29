@@ -113,14 +113,6 @@ img_buffer = BytesIO()
 fig.savefig(img_buffer, format='png')
 img_buffer.seek(0)
 
-# Metadata Dummy
-nama_produk = "Sarden Ikan"
-tanggal_proses = datetime.now().strftime("%d-%m-%Y")
-nama_operator = "Budi Santoso"
-nama_alat = "Retort R2B-01"
-nilai_f0 = f0[-1]
-valid = check_minimum_holding_time(temps)
-
 # Buat PDF
 pdf = PDF()
 pdf.add_metadata(nama_produk, tanggal_proses, nama_operator, nama_alat, nilai_f0, valid)
