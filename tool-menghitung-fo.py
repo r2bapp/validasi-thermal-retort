@@ -131,6 +131,11 @@ img_buffer = BytesIO()
 fig.savefig(img_buffer, format='png')
 img_buffer.seek(0)
 
+# Lalu dipakai
+pdf.add_metadata( )
+pdf_bytes = pdf.output(dest='S').encode('latin1')
+st.download_button("💾 Unduh PDF", data=pdf_bytes, file_name="laporan_validasi.pdf", mime="application/pdf")
+
 # Buat PDF
 pdf = FPDF()
 pdf.set_title("Laporan Validasi Thermal Retort")
@@ -142,6 +147,7 @@ pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
 pdf.ln(10)
 pdf.image(img_buffer, x=10, y=30, w=180)
 
+# Output PDF ke memori
 pdf_bytes = pdf.output(dest='S')
 buffer = BytesIO(pdf_bytes)
 
