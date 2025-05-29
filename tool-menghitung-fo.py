@@ -143,6 +143,7 @@ pdf.add_page()
 pdf.set_font("Arial", size=12)
 pdf.cell(200, 10, txt="Laporan Penghitungan F0", ln=True, align="C")
 pdf.ln(10)
+pdf.multi_cell(0, 10, isi_laporan)
 isi_laporan = (
     f"Produk: {nama_produk}\n"
     f"Tanggal Proses: {datetime.now().strftime('%d-%m-%Y')}\n"
@@ -152,7 +153,6 @@ isi_laporan = (
     f"Status Validasi: {status}"
 )
 
-pdf.multi_cell(0, 10, isi_laporan)
 pdf.ln(5)
 pdf.image("grafik.png", x=10, y=30, w=180)
 
