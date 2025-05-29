@@ -151,15 +151,14 @@ img_buffer.seek(0)
 
 if st.button("📄 Ekspor ke PDF"):
     pdf = PDF()
-   pdf.add_metadata(pdf = FPDF()
-pdf.set_title("Laporan Validasi Thermal Retort")
-pdf.set_author("Nama Operator")
-pdf.set_creator("Aplikasi Streamlit")
-pdf.add_page()
-pdf.set_font("Arial", size=12)
-pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
-pdf.ln(10)
-pdf.image(img_buffer, x=10, y=30, w=180))
+   pdf.add_metadata(
+    produk="Sarden Ikan",
+    tanggal="29-05-2025",
+    operator="Budi Santoso",
+    alat="Overpressure Retort",
+    f0=3.25,
+    status="Valid"
+)
     pdf_bytes = pdf.output(dest='S').encode('latin1')
     st.download_button("💾 Unduh PDF", data=pdf_bytes, file_name="laporan_validasi.pdf", mime="application/pdf")
 
