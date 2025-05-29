@@ -149,6 +149,12 @@ img_buffer = BytesIO()
 fig.savefig(img_buffer, format='png')
 img_buffer.seek(0)
 
+if st.button("📄 Ekspor ke PDF"):
+    pdf = PDF()
+    pdf.add_metadata(...)  # sesuai struktur Anda
+    pdf_bytes = pdf.output(dest='S').encode('latin1')
+    st.download_button("💾 Unduh PDF", data=pdf_bytes, file_name="laporan_validasi.pdf", mime="application/pdf")
+
 # Buat PDF
 pdf = FPDF()
 pdf.add_page()
