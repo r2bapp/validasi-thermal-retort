@@ -120,8 +120,8 @@ ax2 = ax.twinx()
 ax2.plot(range(1, len(f0)+1), f0, color='orange', label="F₀ Akumulatif", linestyle='--')
 ax2.set_ylabel("F₀")
 
-ax.legend(loc="upper left")
-ax2.legend(loc="upper right")
+ax.legend(loc="outside left")
+ax2.legend(loc="outside right")
 
 # Tampilkan grafik
 st.pyplot(fig)
@@ -130,14 +130,6 @@ st.pyplot(fig)
 img_buffer = BytesIO()
 fig.savefig(img_buffer, format='png')
 img_buffer.seek(0)
-
-   # Didefinisikan dulu
-nama_produk = "text input"
-tanggal_proses = "date input"
-nama_operator = "text input"
-nama_alat = "text input"
-nilai_f0 = 
-valid = "text input"
 
 # Buat PDF
 pdf = FPDF()
