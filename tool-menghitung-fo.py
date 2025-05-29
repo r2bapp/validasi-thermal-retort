@@ -98,7 +98,7 @@ class PDF(FPDF):
     def add_data(self,nama_produk, tanggal, operator, alat, f0_total, passed):
         self.add_page()
         self.chapter_title("Data Proses")
-        self.chapter_body(f"Produk: {Nama_Produk}\nTanggal Proses: {tanggal_proses}\nOperator: {nama_operator}\nAlat Retort: {nama_alat_retort}")
+        self.chapter_body(f"Produk: {Nama_Produk}\nTanggal Proses: {tanggal_proses}\nOperator: {nama_operator}\nAlat Retort: {alat}")
 
         self.chapter_title("Hasil Validasi")
         status_text = "Lolos" if passed else "Tidak Lolos"
