@@ -95,10 +95,10 @@ class PDF(FPDF):
         self.set_font("Arial", size=12)
         self.multi_cell(0, 10, text)
 
-    def add_data(self, produk, tanggal, operator, alat, f0_total, passed):
+    def add_data(self, nama produk, tanggal, operator, alat, f0_total, passed):
         self.add_page()
         self.chapter_title("Data Proses")
-        self.chapter_body(f"Produk: {produk}\nTanggal Proses: {tanggal}\nOperator: {operator}\nAlat Retort: {alat}")
+        self.chapter_body(f"Produk: {nama produk}\nTanggal Proses: {tanggal}\nOperator: {operator}\nAlat Retort: {alat}")
 
         self.chapter_title("Hasil Validasi")
         status_text = "Lolos" if passed else "Tidak Lolos"
@@ -144,7 +144,7 @@ pdf.set_font("Arial", size=12)
 pdf.cell(200, 10, txt="Laporan Penghitungan F0", ln=True, align="C")
 pdf.ln(10)
 isi_laporan = (
-    f"Produk: {produk}\n"
+    f"Produk: {nama produk}\n"
     f"Tanggal Proses: {datetime.now().strftime('%d-%m-%Y')}\n"
     f"Operator: {operator}\n"
     f"Alat Retort: {alat}\n"
