@@ -38,7 +38,6 @@ def detect_data_start():
             start_row = idx
             break
     return start_row
-        
         if start_row is None:
             raise ValueError("Baris 'DATA PANTAUAN' tidak ditemukan.")
 
