@@ -143,7 +143,7 @@ pdf.add_page()
 pdf.set_font("Arial", size=12)
 pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
 pdf.ln(10)
-pdf.image("grafik_temp.png", x=10, y=30, w=180)
+pdf.image("img_buffer.png", x=10, y=30, w=180)
 
 # Simpan ke buffer dan tampilkan tombol unduh
 pdf_bytes = pdf.output(dest="S")
