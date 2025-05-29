@@ -107,7 +107,7 @@ pdf_bytes = pdf.output(dest='S')
 buffer = BytesIO(pdf_bytes)
 
 st.download_button(
-    label=⬇️ Download Laporan PDF",
+    label=Download Laporan PDF",
     data=buffer,
     file_name="laporan_validasi.pdf",
     mime="application/pdf"
