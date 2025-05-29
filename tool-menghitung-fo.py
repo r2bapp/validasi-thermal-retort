@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-st.set_page_config(page_title="Unduh Metadata PDF dan Tools menghitung F0", layout="wide")
+st.set_page_config(page_title="Unduh Metadata PDF" dan "Tools menghitung F0", layout="wide")
 st.title("Tools Menghitung F0 - Rumah Retort Bersama")
 
 st.markdown("""
