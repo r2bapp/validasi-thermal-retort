@@ -160,7 +160,7 @@ Nilai F0: {f0_total:.2f}
 Status Validasi: {status}
 """)
 pdf.ln(5)
-pdf.image("grafik_temp.png", x=10, y=pdf.get_y(), w=180)
+pdf.image("grafik.png", x=10, y=pdf.get_y(30), w=180)
 
 # Simpan ke buffer dan tampilkan tombol unduh
 pdf_bytes = pdf.output(dest="S")
