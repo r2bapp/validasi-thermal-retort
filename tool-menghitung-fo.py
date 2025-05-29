@@ -108,14 +108,6 @@ class PDF(FPDF):
     def add_graphic(self, img_buffer):
         self.image(img_buffer, x=10, y=self.get_y(), w=180)
 
-# Data proses
-produk = "Sarden Ikan"
-tanggal = datetime.now().strftime("%d-%m-%Y")
-operator = "Budi Santoso"
-alat = "Retort R2B-01"
-f0_total = 3.25
-status = "Valid"
-
    # Buat grafik
 fig, ax = plt.subplots()
 ax.plot(range(1, len(temps)+1), temps, label="Suhu (°C)", marker='o')
