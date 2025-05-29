@@ -4,136 +4,70 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from datetime import datetime
 
-st.set_page_config(page_title="Tools menghitung F0", layout="wide")
-st.title("Validasi Thermal Proses Sterilisasi - PT Rumah Retort Bersama")
+st.set_page_config(page_title="Validasi Thermal Retort", layout="centered")
 
-st.markdown("""
-Aplikasi ini menghitung nilai **F₀ (F-nol)** dari data suhu per menit selama proses sterilisasi.
-Gunakan input manual atau upload file Excel berisi suhu tiap menit.
-""")
+# ===== Custom PDF Class =====
+class PDF(FPDF):
+    def chapter_title(self, title):
+        self.set_font("Arial", 'B', 12)
+        self.cell(0, 10, title, ln=True)
 
-# Metadata form
-st.sidebar.header("📝 Form Metadata Proses")
-nama_produk = st.sidebar.text_input("Nama Produk")
-tanggal_proses = st.sidebar.date_input("Tanggal Proses")
-nama_operator = st.sidebar.text_input("Nama Operator")
-nama_alat = st.sidebar.text_input("Nama Alat Retort")
+    def chapter_body(self, text):
+        self.set_font("Arial", size=12)
+        self.multi_cell(0, 10, text)
 
-# Fungsi hitung F₀
-def calculate_f0(temps, T_ref=121.1, z=10):
-    f0_values = []
-    for T in temps:
-        if T < 90:
-            f0_values.append(0)
-        else:
-            f0_values.append(10 ** ((T - T_ref) / z))
-    return np.cumsum(f0_values)
-    
-      # Cari baris tempat data suhu dimulai
-def detect_data_start():
-    start_row = None
-    for idx, row in enumerate(data):
-        if "Suhu" in row:
-            start_row = idx
-            break
-    return start_row
+    def add_metadata(self, produk, tanggal, operator, alat, f0_total, passed):
+        self.add_page()
+        self.chapter_title("Metadata Proses")
+        self.chapter_body(f"Produk: {produk}\nTanggal Proses: {tanggal}\nOperator: {operator}\nAlat Retort: {alat}")
 
-# Lanjutan logika di luar fungsi
-start_row = detect_data_start()
-if start_row is None:
-    raise ValueError("Baris 'DATA PANTAUAN' tidak ditemukan.")
+        self.chapter_title("Hasil Validasi")
+        status_text = "Lolos" if passed else "Tidak Lolos"
+        text = f"Nilai F0 Total: {f0_total:.2f}\nValidasi Suhu >= 121.1 C selama 3 menit: {status_text}"
+        self.chapter_body(text)
 
-df_data = df_raw.iloc[start_row:].reset_index(drop=True)
+    def add_graphic(self, img_buffer):
+        self.image(img_buffer, x=10, y=self.get_y(), w=180)
 
-suhu_col = None
-for col in df_data.columns:
-    numeric_col = pd.to_numeric(df_data[col], errors='coerce')
-    if (numeric_col > 90).sum() > 2:
-        suhu_col = col
-        break
-try:
-    if suhu_col is None:
-        raise ValueError("Kolom suhu tidak ditemukan.")
+# ===== Fungsi untuk ekstrak suhu =====
+def extract_suhu(df_data):
+    try:
+        suhu_col = None
+        for col in df_data.columns:
+            numeric_col = pd.to_numeric(df_data[col], errors='coerce')
+            if (numeric_col > 90).sum() > 2:
+                suhu_col = col
+                break
 
-    suhu = pd.to_numeric(df_data[suhu_col], errors='coerce').dropna().tolist()
-    return suhu
+        if suhu_col is None:
+            raise ValueError("Kolom suhu tidak ditemukan.")
 
-except Exception as e:
-    st.error(f"Gagal ekstrak suhu dari file: {e}")
-    return []
+        suhu = pd.to_numeric(df_data[suhu_col], errors='coerce').dropna().tolist()
+        return suhu
 
-# Fungsi cek suhu minimal 121.1°C selama ≥3 menit
+    except Exception as e:
+        st.error(f"Gagal ekstrak suhu dari file: {e}")
+        return []
+
+# ===== Fungsi cek suhu minimal 121.1°C selama ≥3 menit =====
 def check_minimum_holding_time(temps, min_temp=121.1, min_duration=3):
     holding_minutes = 0
     for t in temps:
         if t >= min_temp:
             holding_minutes += 1
-            if holding_minutes >= min_duration:
-                return True
         else:
             holding_minutes = 0
+        if holding_minutes >= min_duration:
+            return True
     return False
 
-# Fungsi ekspor PDF
-class PDF(FPDF):
-    def header(self):
-        self.set_font('Arial', 'B', 12)
-        self.cell(0, 10, 'Laporan Validasi Thermal', ln=True, align='C')
+# ===== Dummy Data & Perhitungan =====
+temps = [30, 35, 45, 60, 75, 85, 95, 110, 115, 121, 122, 121, 118]
+z = 10
+f0 = np.cumsum([max(0, (t - 121.1)/z) for t in temps])
 
-    def chapter_title(self, title):
-        self.set_font('Arial', 'B', 10)
-        self.cell(0, 10, title, ln=True)
-
-    def chapter_body(self, text):
-        self.set_font('Arial', '', 10)
-        self.multi_cell(0, 10, text)
-
-  def add_metadata(self, produk, tanggal, operator, alat, f0_total, passed):
-    self.add_page()
-    self.chapter_title("Metadata Proses")
-    self.chapter_body(f"Produk: {produk}\nTanggal Proses: {tanggal}\nOperator: {operator}\nAlat Retort: {alat}")
-
-    self.chapter_title("Hasil Validasi")
-
-    # Tentukan status teks berdasarkan boolean 'passed'
-    status_text = "Lolos" if passed else "Tidak Lolos"
-
-    # Buat teks hasil validasi
-    text = f"Nilai F0 Total: {f0_total:.2f}\nValidasi Suhu >= 121.1 C selama 3 menit: {status_text}"
-
-    # Tambahkan ke PDF
-    self.chapter_body(text)
-
-# Pilihan metode input
-input_method = st.radio("🔘 Pilih Metode Input", ["Manual", "Upload Excel"])
-temps = []
-
-if input_method == "Manual":
-    st.subheader("📋 Input Manual Suhu per Menit")
-    waktu = st.number_input("Jumlah menit", min_value=1, max_value=120, value=10)
-    for i in range(waktu):
-        temp = st.number_input(f"Menit ke-{i+1}: Suhu (°C)", value=25.0, step=0.1)
-        temps.append(temp)
-
-elif input_method == "Upload Excel":
-    st.subheader("📄 Upload File Excel")
-    uploaded_file = st.file_uploader("Pilih file Excel (.xlsx)", type=["xlsx"])
-    if uploaded_file:
-        temps = extract_suhu_from_umkm_excel(uploaded_file)
-
-if temps:
-    f0 = calculate_f0(temps)
-    st.info(f"📊 Data suhu valid ditemukan: {len(temps)} menit")
-    st.success(f"✅ Nilai F₀ Total: {f0[-1]:.2f}")
-
-    valid = check_minimum_holding_time(temps)
-    if valid:
-        st.success("✅ Suhu ≥121.1°C tercapai minimal selama 3 menit")
-    else:
-        st.warning("⚠️ Suhu ≥121.1°C belum tercapai selama 3 menit")
-
-   # Buat grafik
 fig, ax = plt.subplots()
 ax.plot(range(1, len(temps)+1), temps, label="Suhu (°C)", marker='o')
 ax.axhline(90, color='red', linestyle='--', label="Ambang F₀ (90°C)")
@@ -148,48 +82,35 @@ ax2.set_ylabel("F₀")
 ax.legend(loc="upper left")
 ax2.legend(loc="upper right")
 
-# Tampilkan grafik
+st.title("📄 Validasi Thermal Retort")
 st.pyplot(fig)
 
-# Simpan grafik ke BytesIO
+# Simpan grafik ke buffer
 img_buffer = BytesIO()
 fig.savefig(img_buffer, format='png')
 img_buffer.seek(0)
 
-if st.button("📄 Ekspor ke PDF"):
-    pdf = PDF()
-   # Didefinisikan dulu
+# Metadata Dummy
 nama_produk = "Sarden Ikan"
-tanggal_proses = "29-05-2025"
+tanggal_proses = datetime.now().strftime("%d-%m-%Y")
 nama_operator = "Budi Santoso"
 nama_alat = "Retort R2B-01"
-nilai_f0 = 3.25
-valid = "Valid"
-
-# Lalu dipakai
-pdf.add_metadata( )
-pdf_bytes = pdf.output(dest='S').encode('latin1')
-st.download_button("💾 Unduh PDF", data=pdf_bytes, file_name="laporan_validasi.pdf", mime="application/pdf")
+nilai_f0 = f0[-1]
+valid = check_minimum_holding_time(temps)
 
 # Buat PDF
-pdf = FPDF()
-pdf.set_title("Laporan Validasi Thermal Retort")
-pdf.set_author("Nama Operator")
-pdf.set_creator("Aplikasi Streamlit")
-pdf.add_page()
-pdf.set_font("Arial", size=12)
-pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
-pdf.ln(10)
-pdf.image(img_buffer, x=10, y=30, w=180)
+pdf = PDF()
+pdf.add_metadata(nama_produk, tanggal_proses, nama_operator, nama_alat, nilai_f0, valid)
+pdf.add_graphic(img_buffer)
 
-# Output PDF ke memori
 pdf_bytes = pdf.output(dest='S')
 buffer = BytesIO(pdf_bytes)
 
-# Tombol unduh PDF
 st.download_button(
-    label="⬇️ Download Laporan PDF",
+    label=⬇️ Download Laporan PDF",
     data=buffer,
     file_name="laporan_validasi.pdf",
     mime="application/pdf"
 )
+
+st.success("Laporan berhasil dibuat dan siap diunduh.")
