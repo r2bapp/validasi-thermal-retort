@@ -6,8 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-st.set_page_config(page_title="Tools menghitung F0", layout="wide")
-st.title("Validasi Thermal Proses Sterilisasi - PT Rumah Retort Bersama")
+st.set_page_config(page_title="Unduh Metadata PDF dan Tools menghitung F0", layout="wide")
+st.title("Tools Menghitung F0 - Rumah Retort Bersama")
 
 st.markdown("""
 Aplikasi ini menghitung nilai **F₀ (F-nol)** dari data suhu per menit selama proses sterilisasi.
@@ -131,8 +131,6 @@ img_buffer = BytesIO()
 fig.savefig(img_buffer, format='png')
 img_buffer.seek(0)
 
-if st.button("Unduh ke PDF"):
-    pdf = PDF()
    # Didefinisikan dulu
 nama_produk = "Sarden Ikan"
 tanggal_proses = "29-05-2025"
