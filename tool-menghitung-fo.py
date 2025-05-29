@@ -60,7 +60,7 @@ for col in df_data.columns:
         return suhu
 
     except Exception as e:
-        st.error(f"❌ Gagal ekstrak suhu dari file: {e}")
+        st.error(f"Gagal ekstrak suhu dari file: {e}")
         return []
 
 # Fungsi cek suhu minimal 121.1°C selama ≥3 menit
