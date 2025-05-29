@@ -137,7 +137,7 @@ img_buffer.seek(0)
 # Buat PDF
 pdf = FPDF()
 pdf.set_title("Laporan Penghitungan F0")
-pdf.set_author("Nama Operator")
+pdf.set_author("Data Proses")
 pdf.set_creator("Aplikasi Streamlit")
 pdf.add_page()
 pdf.set_font("Arial", size=12)
@@ -152,7 +152,7 @@ buffer = BytesIO(pdf_bytes)
 st.download_button(
     label="💾 Unduh Laporan PDF",
     data=buffer,
-    file_name="laporan_validasi.pdf",
+    file_name="laporan_penghitungan_f0.pdf",
     mime="application/pdf"
 )
 
