@@ -151,7 +151,6 @@ isi_laporan = (
     f"Nilai F0: {f0_total:.2f}\n"
     f"Status Validasi: {status}"
 )
-
 pdf.multi_cell(0, 10, isi_laporan)
 pdf.ln(5)
 pdf.image("grafik.png", x=10, y=30, w=180)
