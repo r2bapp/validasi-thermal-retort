@@ -132,7 +132,15 @@ fig.savefig(img_buffer, format='png')
 img_buffer.seek(0)
 
 # Lalu dipakai
-pdf.add_metadata(produk, tanggal, operator, alat, f0_total, passed )
+pdf = PDF()
+pdf.add_metadata(
+    produk="Nama Produk",
+    tanggal="Tanggal Proses",
+    operator="Nama Operator",
+    alat="Retort R2B-01",
+    f0_total=3.25,
+    passed="True or Passed"
+)
 pdf_bytes = pdf.output(dest='S').encode('latin1')
 st.download_button("💾 Unduh PDF", data=pdf_bytes, file_name="laporan_validasi.pdf", mime="application/pdf")
 
