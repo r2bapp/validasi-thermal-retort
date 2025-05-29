@@ -141,7 +141,7 @@ pdf.add_metadata(
     f0_total=3.25,
     passed="True or Passed"
 )
-pdf_bytes = pdf.output(dest='S').encode('latin1')
+pdf_bytes = pdf.output(dest='S')
 st.download_button("💾 Unduh PDF", data=pdf_bytes, file_name="laporan_validasi.pdf", mime="application/pdf")
 
 # Buat PDF
