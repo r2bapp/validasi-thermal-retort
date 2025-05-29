@@ -32,7 +32,7 @@ pdf.ln(10)
 pdf.image(img_buffer, x=10, y=30, w=180)
 
 # Output PDF ke memori
-pdf_bytes = pdf.output(dest='S').  # <- jika return-nya str
+pdf_bytes = pdf.output(dest='S')  # aman tanpa .encode jika sudah bytes  
 buffer = BytesIO(pdf_bytes)
 
 # Tampilkan di Streamlit
