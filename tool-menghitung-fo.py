@@ -135,7 +135,7 @@ pdf.add_page()
 pdf.set_font("Arial", size=12)
 pdf.cell(200, 10, txt="Laporan Uji Validasi Thermal Retort", ln=True, align="C")
 pdf.ln(10)
-pdf.image(img_buffer, x=10, y=30, w=180)
+pdf.image(img_buffer, x=10, y=30, w=180, type='PNG', name='grafik.png')
 
 # Simpan grafik ke BytesIO
 img_buffer = BytesIO()
