@@ -127,8 +127,9 @@ ax2.legend(loc="center right")
 st.pyplot(fig)
 
 # Simpan grafik ke BytesIO
-fig.savefig("grafik_temp.png")
-img_buffer.seek(0)
+img_buffer = BytesIO()
+fig.savefig(img_buffer, format='png')
+img_buffer.seek(0) 
 
 # Buat PDF
 pdf = FPDF()
