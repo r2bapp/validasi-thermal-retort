@@ -31,29 +31,6 @@ def calculate_f0(temps, T_ref=121.1, z=10):
             f0_values.append(10 ** ((T - T_ref) / z))
     return np.cumsum(f0_values)
 
-# ===== Custom PDF Class =====
-class PDF(FPDF):
-    def chapter_title(self, title):
-        self.set_font("Arial", 'B', 12)
-        self.cell(0, 10, title, ln=True)
-
-    def chapter_body(self, text):
-        self.set_font("Arial", size=12)
-        self.multi_cell(0, 10, text)
-
-    def add_metadata(self, produk, tanggal, operator, alat, f0_total, passed):
-        self.add_page()
-        self.chapter_title("Metadata Proses")
-        self.chapter_body(f"Produk: {produk}\nTanggal Proses: {tanggal}\nOperator: {operator}\nAlat Retort: {alat}")
-
-        self.chapter_title("Hasil Validasi")
-        status_text = "Lolos" if passed else "Tidak Lolos"
-        text = f"Nilai F0 Total: {f0_total:.2f}\nValidasi Suhu >= 121.1 C selama 3 menit: {status_text}"
-        self.chapter_body(text)
-
-    def add_graphic(self, img_buffer):
-        self.image(img_buffer, x=10, y=self.get_y(), w=180)
-
 # ===== Fungsi untuk ekstrak suhu =====
 def extract_suhu(df_data):
     try:
@@ -85,6 +62,29 @@ def check_minimum_holding_time(temps, min_temp=121.1, min_duration=3):
         if holding_minutes >= min_duration:
             return True
     return False
+
+# ===== Custom PDF Class =====
+class PDF(FPDF):
+    def chapter_title(self, title):
+        self.set_font("Arial", 'B', 12)
+        self.cell(0, 10, title, ln=True)
+
+    def chapter_body(self, text):
+        self.set_font("Arial", size=12)
+        self.multi_cell(0, 10, text)
+
+    def add_metadata(self, produk, tanggal, operator, alat, f0_total, passed):
+        self.add_page()
+        self.chapter_title("Metadata Proses")
+        self.chapter_body(f"Produk: {produk}\nTanggal Proses: {tanggal}\nOperator: {operator}\nAlat Retort: {alat}")
+
+        self.chapter_title("Hasil Validasi")
+        status_text = "Lolos" if passed else "Tidak Lolos"
+        text = f"Nilai F0 Total: {f0_total:.2f}\nValidasi Suhu >= 121.1 C selama 3 menit: {status_text}"
+        self.chapter_body(text)
+
+    def add_graphic(self, img_buffer):
+        self.image(img_buffer, x=10, y=self.get_y(), w=180)
 
 # ===== Dummy Data & Perhitungan =====
 temps = [30, 35, 45, 60, 75, 85, 95, 110, 115, 121, 122, 121, 118]
