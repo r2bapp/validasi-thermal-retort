@@ -29,13 +29,7 @@ def calculate_f0(temps, T_ref=121.1, z=10):
         else:
             f0_values.append(10 ** ((T - T_ref) / z))
     return np.cumsum(f0_values)
-
-# Fungsi ekstraksi suhu dari file Excel UMKM
-def extract_suhu_from_umkm_excel(file):
-    try:
-        xls = pd.ExcelFile(file, engine="openpyxl")
-        df_raw = xls.parse('Sheet1', header=None)
-
+    
        # Cari baris tempat data suhu dimulai
         start_row = None
         for i, row in df_raw.iterrows():
@@ -96,7 +90,8 @@ class PDF(FPDF):
         self.chapter_title("Metadata Proses")
         self.chapter_body(f"Produk: {produk}\nTanggal Proses: {tanggal}\nOperator: {operator}\nAlat Retort: {alat}")
         self.chapter_title("Hasil Validasi")
-        self.chapter_body(f"Nilai F₀ Total: {f0_total:.2f}\nValidasi Suhu ≥121.1°C selama 3 menit: {'Lolos' if passed else 'Tidak Lolos'}"){status_text}"
+        self.chapter_body(f"Nilai F₀ Total: status_text = "Lolos" if passed else "Tidak Lolos" text = f"Nilai F0 Total: {f0_total:.2f}\nValidasi Suhu >= 121.1 C selama 3 menit: {status_text}"              
+        self.multi_cell(0, 10, text)
 
 # Pilihan metode input
 input_method = st.radio("🔘 Pilih Metode Input", ["Manual", "Upload Excel"])
